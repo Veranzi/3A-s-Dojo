@@ -1,0 +1,114 @@
+'use client'
+
+import Link from 'next/link'
+import { motion } from 'framer-motion'
+import { ArrowLeft, Shield, Target, Users, Globe } from 'lucide-react'
+
+export default function AboutPage() {
+  return (
+    <div className="min-h-screen py-20 px-4">
+      <div className="max-w-4xl mx-auto">
+        <Link href="/" className="inline-flex items-center gap-2 text-primary-600 hover:text-primary-700 mb-8">
+          <ArrowLeft className="w-4 h-4" />
+          Back to Home
+        </Link>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="space-y-8"
+        >
+          <div className="text-center mb-12">
+            <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
+              About RadaQuest
+            </h1>
+            <p className="text-xl text-slate-600">
+              Empowering Kenya with cybersecurity knowledge
+            </p>
+          </div>
+
+          <div className="card space-y-6">
+            <div>
+              <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+                <Target className="w-6 h-6 text-primary-600" />
+                Our Mission
+              </h2>
+              <p className="text-slate-700 leading-relaxed">
+                RadaQuest is a web-based, gamified cybersecurity platform designed to teach 
+                users safe online practices in Kenya through interactive quizzes and challenges. We 
+                believe that cybersecurity awareness should be accessible, engaging, and practical for 
+                everyone.
+              </p>
+            </div>
+
+            <div>
+              <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+                <Shield className="w-6 h-6 text-primary-600" />
+                The Problem
+              </h2>
+              <p className="text-slate-700 leading-relaxed">
+                Kenya is experiencing rapid digital adoption, yet human vulnerability remains the 
+                leading cause of cybersecurity breaches. Phishing, social engineering, weak passwords, 
+                malicious links, and impersonation attacks continue to affect individuals, SMEs, and 
+                institutions. Traditional awareness campaigns are often boring, technical, or inaccessible, 
+                leaving many citizens unprepared to identify and respond to cyber threats.
+              </p>
+            </div>
+
+            <div>
+              <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+                <Users className="w-6 h-6 text-primary-600" />
+                Our Solution
+              </h2>
+              <p className="text-slate-700 leading-relaxed mb-4">
+                RadaQuest offers three primary interaction formats:
+              </p>
+              <ul className="list-disc list-inside space-y-2 text-slate-700 ml-4">
+                <li><strong>Multiple-Selection Questions (MSQ):</strong> Answer scenario-based questions where multiple choices may be correct</li>
+                <li><strong>Drag-and-Drop Matching:</strong> Match cybersecurity threats with their categories</li>
+                <li><strong>Click-to-Select Questions:</strong> Choose the correct answer from multiple options</li>
+              </ul>
+            </div>
+
+            <div>
+              <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+                <Globe className="w-6 h-6 text-primary-600" />
+                Key Features
+              </h2>
+              <ul className="space-y-3 text-slate-700">
+                <li className="flex items-start gap-2">
+                  <span className="text-primary-600 font-bold">✓</span>
+                  <span><strong>Progress Levels:</strong> Beginner → Intermediate → Expert</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-primary-600 font-bold">✓</span>
+                  <span><strong>Badges & Rewards:</strong> Earn achievements for points, streaks, and completion</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-primary-600 font-bold">✓</span>
+                  <span><strong>Real Kenyan Examples:</strong> Local scams, fake job posts, M-Pesa fraud, WhatsApp promotions</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-primary-600 font-bold">✓</span>
+                  <span><strong>AI-Powered Explanations:</strong> Understand why answers are correct or incorrect</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-primary-600 font-bold">✓</span>
+                  <span><strong>No Login Required:</strong> Start learning immediately, completely anonymous</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="pt-6 border-t border-slate-200">
+              <Link href="/quiz" className="btn-primary inline-flex items-center gap-2">
+                Start Your Journey
+                <ArrowLeft className="w-4 h-4 rotate-180" />
+              </Link>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  )
+}
+
