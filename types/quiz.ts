@@ -46,7 +46,7 @@ export interface ClickSelectQuestion extends BaseQuestion {
 export interface SudokuQuestion extends BaseQuestion {
   type: 'sudoku'
   grid: (string | null)[][]
-  solution: string[][]
+  solution: (string | null)[][]
   terms: {
     word: string
     clue: string
