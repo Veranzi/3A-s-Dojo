@@ -98,7 +98,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
       {/* Hero Section */}
-      <section className="relative overflow-hidden pt-8 pb-12 px-4">
+      <section className="relative overflow-hidden pt-8 pb-12">
         {/* Background Image */}
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-60"
@@ -106,14 +106,13 @@ export default function Home() {
             backgroundImage: 'url(/hero.jpeg)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            transform: 'scale(0.8)',
           }}
         >
           <div className="absolute inset-0 bg-gradient-to-br from-primary-600/85 via-accent-600/85 to-primary-700/85"></div>
         </div>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,0,0,0.2),transparent_70%)]"></div>
         
-        <div className="max-w-7xl mx-auto relative z-10">
+        <div className="max-w-7xl mx-auto relative z-10 px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: mounted ? 1 : 0, y: mounted ? 0 : 20 }}

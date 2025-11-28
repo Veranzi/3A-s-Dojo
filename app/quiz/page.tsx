@@ -24,6 +24,7 @@ export default function QuizPage() {
   const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty | 'all'>('all')
   const [selectedType, setSelectedType] = useState<'all' | 'questions' | 'sudoku'>('all')
   const [showSelection, setShowSelection] = useState(true)
+  const [minimumLevel, setMinimumLevel] = useState<Difficulty | null>(null)
 
   useEffect(() => {
     // Check URL parameters for pre-selected filters
@@ -85,7 +86,22 @@ export default function QuizPage() {
       setTimeout(() => setShowCelebration(false), 2000)
     }
 
-    const updatedProgress = updateProgress(progress, isCorrect, points, currentQuestion)
+    let updatedProgress = updateProgress(progress, isCorrect, points, currentQuestion)
+    
+    // Ensure level doesn't go below the minimum level set by selected difficulty
+    if (minimumLevel) {
+      const levelOrder: Difficulty[] = ['beginner', 'intermediate', 'expert']
+      const currentLevelIndex = levelOrder.indexOf(updatedProgress.level)
+      const minLevelIndex = levelOrder.indexOf(minimumLevel)
+      
+      if (currentLevelIndex < minLevelIndex) {
+        updatedProgress = {
+          ...updatedProgress,
+          level: minimumLevel
+        }
+      }
+    }
+    
     setProgress(updatedProgress)
   }
 
@@ -102,6 +118,7 @@ export default function QuizPage() {
     setProgress(getInitialProgress())
     setShowCompletion(false)
     setShowSelection(true)
+    setMinimumLevel(null)
   }
 
   const handleStartQuiz = () => {
@@ -109,6 +126,18 @@ export default function QuizPage() {
       alert('No questions available with selected filters. Please try different options.')
       return
     }
+    
+    // If a specific difficulty is selected (not 'all'), set the minimum level to that difficulty
+    if (selectedDifficulty !== 'all') {
+      setMinimumLevel(selectedDifficulty)
+      setProgress(prev => ({
+        ...prev,
+        level: selectedDifficulty
+      }))
+    } else {
+      setMinimumLevel(null)
+    }
+    
     setShowSelection(false)
     setCurrentQuestionIndex(0)
   }
