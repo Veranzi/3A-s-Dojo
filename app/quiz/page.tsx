@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
-import { ArrowLeft, ArrowRight, Trophy, Home, Sparkles, Star, Zap } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Trophy, Home, Sparkles, Star, Zap, CheckCircle2, XCircle, Info, BookOpen } from 'lucide-react'
 import { quizData } from '@/data/quizData'
 import { Question, UserProgress } from '@/types/quiz'
 import MSQQuestion from '@/components/quiz/MSQQuestion'
@@ -25,6 +25,7 @@ export default function QuizPage() {
   const [selectedType, setSelectedType] = useState<'all' | 'questions' | 'sudoku'>('all')
   const [showSelection, setShowSelection] = useState(true)
   const [minimumLevel, setMinimumLevel] = useState<Difficulty | null>(null)
+  const [answerHistory, setAnswerHistory] = useState<Array<{ questionId: string; isCorrect: boolean; points: number; question: Question }>>([])
 
   useEffect(() => {
     // Check URL parameters for pre-selected filters
@@ -86,6 +87,14 @@ export default function QuizPage() {
       setTimeout(() => setShowCelebration(false), 2000)
     }
 
+    // Track answer in history
+    setAnswerHistory(prev => [...prev, {
+      questionId: currentQuestion.id,
+      isCorrect,
+      points,
+      question: currentQuestion
+    }])
+
     let updatedProgress = updateProgress(progress, isCorrect, points, currentQuestion)
     
     // Ensure level doesn't go below the minimum level set by selected difficulty
@@ -119,6 +128,7 @@ export default function QuizPage() {
     setShowCompletion(false)
     setShowSelection(true)
     setMinimumLevel(null)
+    setAnswerHistory([])
   }
 
   const handleStartQuiz = () => {
@@ -138,6 +148,8 @@ export default function QuizPage() {
       setMinimumLevel(null)
     }
     
+    // Reset answer history when starting new quiz
+    setAnswerHistory([])
     setShowSelection(false)
     setCurrentQuestionIndex(0)
   }
@@ -354,6 +366,111 @@ export default function QuizPage() {
                         ⭐ {badge}
                       </motion.span>
                     ))}
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Solutions and Score Breakdown */}
+              {answerHistory.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.75 }}
+                  className="mb-8 text-left"
+                >
+                  <div className="flex items-center gap-2 mb-4">
+                    <BookOpen className="w-6 h-6 text-primary-600" />
+                    <h2 className="text-2xl font-black text-slate-800">📚 Solutions & Score Breakdown</h2>
+                  </div>
+                  
+                  <div className="space-y-4 max-h-96 overflow-y-auto pr-2">
+                    {answerHistory.map((answer, index) => {
+                      const { question, isCorrect, points } = answer
+                      return (
+                        <motion.div
+                          key={question.id}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.8 + index * 0.05 }}
+                          className={`p-4 rounded-xl border-2 ${
+                            isCorrect 
+                              ? 'bg-green-50 border-green-300' 
+                              : 'bg-red-50 border-red-300'
+                          }`}
+                        >
+                          <div className="flex items-start justify-between mb-2">
+                            <div className="flex items-center gap-2">
+                              {isCorrect ? (
+                                <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0" />
+                              ) : (
+                                <XCircle className="w-5 h-5 text-red-600 flex-shrink-0" />
+                              )}
+                              <span className="font-bold text-slate-800">
+                                Question {index + 1} - {question.difficulty.charAt(0).toUpperCase() + question.difficulty.slice(1)}
+                              </span>
+                              <span className={`badge ${isCorrect ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800'}`}>
+                                {isCorrect ? `+${points} pts` : '0 pts'}
+                              </span>
+                            </div>
+                          </div>
+                          
+                          <p className="font-semibold text-slate-700 mb-2">{question.question}</p>
+                          
+                          {/* Show correct answers based on question type */}
+                          <div className="mt-3 p-3 bg-white/80 rounded-lg border border-slate-200">
+                            <p className="text-sm font-semibold text-slate-600 mb-2">Correct Answer:</p>
+                            {question.type === 'msq' && (
+                              <div className="space-y-1">
+                                {question.options.filter(opt => opt.isCorrect).map((opt, i) => (
+                                  <div key={opt.id} className="flex items-center gap-2 text-sm text-green-700">
+                                    <CheckCircle2 className="w-4 h-4" />
+                                    <span>{opt.text}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                            {question.type === 'click-select' && (
+                              <div className="flex items-center gap-2 text-sm text-green-700">
+                                <CheckCircle2 className="w-4 h-4" />
+                                <span>{question.options.find(opt => opt.isCorrect)?.text}</span>
+                              </div>
+                            )}
+                            {question.type === 'drag-drop' && (
+                              <div className="space-y-1 text-sm">
+                                {question.items.map(item => (
+                                  <div key={item.id} className="flex items-center gap-2 text-green-700">
+                                    <CheckCircle2 className="w-4 h-4" />
+                                    <span><strong>{item.text}</strong> → {question.categories.find(c => c.id === item.category)?.name}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                            {question.type === 'sudoku' && (
+                              <div className="text-sm text-green-700">
+                                <p className="mb-2">Words to find:</p>
+                                <div className="grid grid-cols-2 gap-1">
+                                  {question.terms.map(term => (
+                                    <div key={term.word} className="flex items-center gap-1">
+                                      <CheckCircle2 className="w-3 h-3" />
+                                      <span className="font-mono font-bold">{term.word}</span>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                          
+                          {question.explanation && (
+                            <div className="mt-2 p-2 bg-blue-50 rounded border border-blue-200">
+                              <div className="flex items-start gap-2">
+                                <Info className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
+                                <p className="text-xs text-blue-800">{question.explanation}</p>
+                              </div>
+                            </div>
+                          )}
+                        </motion.div>
+                      )
+                    })}
                   </div>
                 </motion.div>
               )}
