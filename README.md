@@ -1,4 +1,4 @@
-# Lookout Quest 🛡️
+# 3A's Dojo 🛡️
 
 A gamified cybersecurity and data protection awareness platform designed to teach users safe online practices and data protection rights in Kenya through interactive quizzes and challenges.
 

@@ -307,6 +307,68 @@ export const quizData: Question[] = [
 
   // Sudoku/Word Puzzle Questions
   {
+    id: 'sudoku-0',
+    type: 'sudoku',
+    difficulty: 'beginner',
+    question: 'Find basic cybersecurity words in this simple puzzle!',
+    explanation: 'Well done! You found: SCAM (fraudulent scheme), VIRUS (harmful computer program), SAFE (protected and secure), EMAIL (electronic message), and LINK (clickable web address). These are essential terms to know for staying safe online!',
+    points: 20,
+    grid: [
+      ['S', 'C', 'A', null, null, null, 'V', 'I', 'R'],
+      [null, null, null, null, null, null, null, null, null],
+      [null, null, null, 'S', 'A', 'F', null, null, null],
+      [null, null, null, null, null, null, null, null, null],
+      ['E', 'M', 'A', null, null, null, 'L', 'I', 'N'],
+      [null, null, null, null, null, null, null, null, null],
+      [null, null, null, 'K', null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null],
+    ],
+    solution: [
+      ['S', 'C', 'A', 'M', null, null, 'V', 'I', 'R'],
+      [null, null, null, null, null, null, 'U', null, null],
+      [null, null, null, 'S', 'A', 'F', 'S', null, null],
+      [null, null, null, null, null, 'E', null, null, null],
+      ['E', 'M', 'A', 'I', 'L', null, 'L', 'I', 'N'],
+      [null, null, null, null, null, null, 'K', null, null],
+      [null, null, null, 'K', null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null],
+    ],
+    terms: [
+      {
+        word: 'SCAM',
+        clue: 'A dishonest scheme to trick people',
+        position: { row: 0, col: 0, direction: 'across' },
+      },
+      {
+        word: 'VIRUS',
+        clue: 'Harmful software that can damage your computer',
+        position: { row: 0, col: 6, direction: 'across' },
+      },
+      {
+        word: 'SAFE',
+        clue: 'Protected and secure from danger',
+        position: { row: 2, col: 3, direction: 'across' },
+      },
+      {
+        word: 'EMAIL',
+        clue: 'Electronic messages sent over the internet',
+        position: { row: 4, col: 0, direction: 'across' },
+      },
+      {
+        word: 'LINK',
+        clue: 'A clickable web address that takes you to another page',
+        position: { row: 4, col: 6, direction: 'across' },
+      },
+    ],
+    hints: [
+      'Look for short, common words about online safety',
+      'One word means a trick or fraud',
+      'Think about things you use on the internet every day',
+    ],
+  },
+  {
     id: 'sudoku-1',
     type: 'sudoku',
     difficulty: 'intermediate',

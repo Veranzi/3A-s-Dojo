@@ -20,7 +20,7 @@ export default function AboutPage() {
         >
           <div className="text-center mb-12">
             <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
-              About Lookout Quest
+              About 3A's Dojo
             </h1>
             <p className="text-xl text-slate-600">
               Empowering Kenya with cybersecurity and data protection knowledge
@@ -34,7 +34,7 @@ export default function AboutPage() {
                 Our Mission
               </h2>
               <p className="text-slate-700 leading-relaxed">
-                Lookout Quest is a web-based, gamified platform designed to teach users cybersecurity and 
+                3A's Dojo is a web-based, gamified platform designed to teach users cybersecurity and 
                 data protection best practices in Kenya through interactive quizzes and challenges. We 
                 believe that cybersecurity awareness and data protection knowledge should be accessible, 
                 engaging, and practical for everyone, helping citizens understand their rights under the 
@@ -64,7 +64,7 @@ export default function AboutPage() {
                 Our Solution
               </h2>
               <p className="text-slate-700 leading-relaxed mb-4">
-                Lookout Quest offers three primary interaction formats:
+                3A's Dojo offers three primary interaction formats:
               </p>
               <ul className="list-disc list-inside space-y-2 text-slate-700 ml-4">
                 <li><strong>Multiple-Selection Questions (MSQ):</strong> Answer scenario-based questions where multiple choices may be correct</li>

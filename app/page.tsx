@@ -99,8 +99,18 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
       {/* Hero Section */}
       <section className="relative overflow-hidden pt-12 pb-20 px-4">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary-500/20 via-accent-500/20 to-primary-600/20"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(14,165,233,0.1),transparent_50%)]"></div>
+        {/* Background Image */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: 'url(/hero.jpeg)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-br from-primary-600/85 via-accent-600/85 to-primary-700/85"></div>
+        </div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,0,0,0.2),transparent_70%)]"></div>
         
         <div className="max-w-7xl mx-auto relative z-10">
           <motion.div
@@ -135,16 +145,18 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: mounted ? 1 : 0, y: mounted ? 0 : 20 }}
               transition={{ delay: 0.3 }}
-              className="text-7xl md:text-8xl font-black mb-4 bg-gradient-to-r from-primary-600 via-accent-600 to-primary-600 bg-clip-text text-transparent leading-tight"
+              className="text-7xl md:text-8xl font-black mb-4 bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent leading-tight drop-shadow-2xl"
+              style={{ textShadow: '0 4px 20px rgba(0,0,0,0.5), 0 2px 10px rgba(0,0,0,0.3)' }}
             >
-              Lookout Quest
+              3A's Dojo
             </motion.h1>
             
             <motion.p 
               initial={{ opacity: 0 }}
               animate={{ opacity: mounted ? 1 : 0 }}
               transition={{ delay: 0.4 }}
-              className="text-2xl md:text-3xl text-primary-600 font-bold mb-3"
+              className="text-2xl md:text-3xl text-white font-bold mb-3 drop-shadow-lg"
+              style={{ textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}
             >
               Level Up Your Cyber Defense! 🛡️
             </motion.p>
@@ -153,7 +165,8 @@ export default function Home() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: mounted ? 1 : 0, y: mounted ? 0 : 10 }}
               transition={{ delay: 0.5 }}
-              className="text-lg md:text-xl text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed"
+              className="text-lg md:text-xl text-white mb-10 max-w-2xl mx-auto leading-relaxed drop-shadow-md"
+              style={{ textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}
             >
               Master cybersecurity and data protection through fun, interactive challenges. 
               Earn points, unlock badges, and become a cyber hero!
@@ -176,7 +189,7 @@ export default function Home() {
               </Link>
               <Link 
                 href="/about" 
-                className="bg-white/90 backdrop-blur-sm text-primary-700 font-semibold text-lg px-8 py-5 rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 border-2 border-primary-200 hover:border-primary-400"
+                className="bg-white/95 backdrop-blur-sm text-primary-700 font-semibold text-lg px-8 py-5 rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 border-2 border-white/50 hover:border-white"
               >
                 Learn More
               </Link>
@@ -195,7 +208,7 @@ export default function Home() {
                   initial={{ opacity: 0, scale: 0.5 }}
                   animate={{ opacity: mounted ? 1 : 0, scale: mounted ? 1 : 0.5 }}
                   transition={{ delay: 0.8 + index * 0.1 }}
-                  className="bg-white/60 backdrop-blur-sm rounded-xl p-4 border border-white/20"
+                  className="bg-white/90 backdrop-blur-md rounded-xl p-4 border border-white/40 shadow-lg"
                 >
                   <div className="text-3xl font-bold text-primary-600 mb-1">{stat.value}</div>
                   <div className="text-sm text-slate-600 font-medium">{stat.label}</div>
@@ -225,29 +238,74 @@ export default function Home() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {quizTypes.map((type, index) => (
-              <motion.div
+              <Link
                 key={type.name}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="group relative"
+                href="/quiz"
+                className="group relative block"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-primary-400 to-accent-400 rounded-3xl blur-xl opacity-0 group-hover:opacity-50 transition-opacity"></div>
-                <div className="relative card hover:scale-105 transition-all duration-300 cursor-pointer border-2 border-transparent hover:border-primary-300">
-                  <div className={`w-16 h-16 rounded-2xl ${type.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
-                    <type.icon className="w-8 h-8 text-white" />
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary-400 to-accent-400 rounded-3xl blur-xl opacity-0 group-hover:opacity-50 transition-opacity"></div>
+                  <div className="relative card hover:scale-105 transition-all duration-300 cursor-pointer border-2 border-transparent hover:border-primary-300">
+                    <div className={`w-16 h-16 rounded-2xl ${type.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
+                      <type.icon className="w-8 h-8 text-white" />
+                    </div>
+                    <h3 className="text-2xl font-bold mb-3 text-slate-800">{type.name}</h3>
+                    <p className="text-slate-600 mb-4">{type.description}</p>
+                    <div className="flex items-center gap-2 text-sm font-semibold text-primary-600">
+                      <TrendingUp className="w-4 h-4" />
+                      <span>{type.points} points per question</span>
+                    </div>
                   </div>
-                  <h3 className="text-2xl font-bold mb-3 text-slate-800">{type.name}</h3>
-                  <p className="text-slate-600 mb-4">{type.description}</p>
-                  <div className="flex items-center gap-2 text-sm font-semibold text-primary-600">
-                    <TrendingUp className="w-4 h-4" />
-                    <span>{type.points} points per question</span>
-                  </div>
-                </div>
-              </motion.div>
+                </motion.div>
+              </Link>
             ))}
           </div>
+
+          {/* Quick Access Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.5 }}
+            className="mt-12 grid md:grid-cols-2 gap-6 max-w-3xl mx-auto"
+          >
+            <Link
+              href="/quiz?type=questions"
+              className="group relative overflow-hidden bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div className="relative z-10">
+                <Brain className="w-12 h-12 mb-4" />
+                <h3 className="text-2xl font-bold mb-2">Quiz Questions</h3>
+                <p className="text-blue-100 mb-4">Test your knowledge with multiple choice, drag & drop, and click-to-select questions</p>
+                <div className="flex items-center gap-2 text-blue-100 font-semibold">
+                  <span>Start Quiz</span>
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </div>
+            </Link>
+            
+            <Link
+              href="/quiz?type=sudoku"
+              className="group relative overflow-hidden bg-gradient-to-r from-orange-600 to-red-600 text-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-red-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div className="relative z-10">
+                <Star className="w-12 h-12 mb-4" />
+                <h3 className="text-2xl font-bold mb-2">Word Puzzles</h3>
+                <p className="text-orange-100 mb-4">Discover cybersecurity terms in fun Sudoku-style word puzzles</p>
+                <div className="flex items-center gap-2 text-orange-100 font-semibold">
+                  <span>Start Puzzle</span>
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </div>
+            </Link>
+          </motion.div>
         </div>
       </section>
 
@@ -261,7 +319,7 @@ export default function Home() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-black mb-4 text-slate-800">
-              Why Players Love Lookout Quest
+              Why Players Love 3A's Dojo
             </h2>
             <p className="text-xl text-slate-600 max-w-2xl mx-auto">
               More than just learning - it's an adventure!
@@ -331,7 +389,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
             <Shield className="w-6 h-6 text-primary-400" />
-            <span className="text-xl font-bold">Lookout Quest</span>
+            <span className="text-xl font-bold">3A's Dojo</span>
           </div>
           <p className="text-slate-400 mb-4">
             Empowering Kenya with cybersecurity and data protection knowledge through gamified learning
@@ -346,7 +404,7 @@ export default function Home() {
             </Link>
           </div>
           <p className="text-slate-500 text-sm">
-            © 2025 Lookout Quest.
+            © 2025 3A's Dojo.
           </p>
         </div>
       </footer>

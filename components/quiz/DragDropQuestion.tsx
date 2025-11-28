@@ -39,7 +39,9 @@ export default function DragDropQuestion({ question, onAnswer }: DragDropQuestio
     setSelectedItem(null)
   }
 
-  const handleItemClick = (itemId: string) => {
+  const handleItemClick = (itemId: string, e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
     if (showResult) return
     const placed = getItemPlacement(itemId) !== null
     if (placed) {
@@ -49,10 +51,22 @@ export default function DragDropQuestion({ question, onAnswer }: DragDropQuestio
     }
   }
 
-  const handleCategoryClick = (categoryId: string) => {
+  const handleCategoryClick = (categoryId: string, e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
     if (showResult) return
     if (selectedItem || draggedItem) {
       handleDrop(categoryId)
+    }
+  }
+
+  const handleTouchStart = (itemId: string, e: React.TouchEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (showResult) return
+    const placed = getItemPlacement(itemId) !== null
+    if (!placed) {
+      setSelectedItem(itemId === selectedItem ? null : itemId)
     }
   }
 
@@ -102,7 +116,9 @@ export default function DragDropQuestion({ question, onAnswer }: DragDropQuestio
           <span className="badge bg-yellow-100 text-yellow-700">{question.points} pts</span>
         </div>
         <h2 className="text-2xl font-bold text-slate-800 mb-4">{question.question}</h2>
-        <p className="text-sm text-slate-500">Drag or tap items to match with categories</p>
+        <p className="text-sm text-slate-500">
+          <span className="hidden md:inline">Drag or </span>Tap items to select, then tap a category to match
+        </p>
       </div>
 
       <div className="grid md:grid-cols-2 gap-6 mb-6">
@@ -120,10 +136,11 @@ export default function DragDropQuestion({ question, onAnswer }: DragDropQuestio
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.05 }}
-                  draggable={!showResult && !placed}
+                  draggable={!showResult && !placed && typeof window !== 'undefined' && window.innerWidth > 768}
                   onDragStart={() => !showResult && !placed && handleDragStart(item.id)}
-                  onClick={() => handleItemClick(item.id)}
-                  className={`p-3 rounded-lg border-2 flex items-center gap-2 transition-all ${
+                  onClick={(e) => handleItemClick(item.id, e)}
+                  onTouchStart={(e) => handleTouchStart(item.id, e)}
+                  className={`p-3 rounded-lg border-2 flex items-center gap-2 transition-all touch-none ${
                     showResult
                       ? correct === true
                         ? 'bg-green-50 border-green-500'
@@ -187,8 +204,12 @@ export default function DragDropQuestion({ question, onAnswer }: DragDropQuestio
                     e.currentTarget.classList.remove('border-primary-500', 'bg-primary-50')
                     if (!showResult) handleDrop(category.id)
                   }}
-                  onClick={() => handleCategoryClick(category.id)}
-                  className={`min-h-[80px] p-4 rounded-xl border-2 transition-all ${
+                  onClick={(e) => handleCategoryClick(category.id, e)}
+                  onTouchEnd={(e) => {
+                    e.preventDefault()
+                    handleCategoryClick(category.id, e)
+                  }}
+                  className={`min-h-[80px] p-4 rounded-xl border-2 transition-all touch-none ${
                     showResult
                       ? isCorrectPlacement
                         ? 'bg-green-50 border-green-500'

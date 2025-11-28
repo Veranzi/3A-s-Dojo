@@ -12,6 +12,7 @@ import ClickSelectQuestion from '@/components/quiz/ClickSelectQuestion'
 import SudokuQuestion from '@/components/quiz/SudokuQuestion'
 import ProgressTracker from '@/components/ProgressTracker'
 import { updateProgress, getInitialProgress } from '@/utils/gamification'
+import { Difficulty } from '@/types/quiz'
 
 export default function QuizPage() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
@@ -20,14 +21,27 @@ export default function QuizPage() {
   const [showCompletion, setShowCompletion] = useState(false)
   const [showCelebration, setShowCelebration] = useState(false)
   const [lastAnswerCorrect, setLastAnswerCorrect] = useState(false)
+  const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty | 'all'>('all')
+  const [selectedType, setSelectedType] = useState<'all' | 'questions' | 'sudoku'>('all')
+  const [showSelection, setShowSelection] = useState(true)
 
   useEffect(() => {
-    // Shuffle questions for variety
-    const shuffled = [...quizData].sort(() => Math.random() - 0.5)
-    setQuestions(shuffled)
+    // Check URL parameters for pre-selected filters
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search)
+      const typeParam = params.get('type')
+      const difficultyParam = params.get('difficulty')
+      
+      if (typeParam === 'questions' || typeParam === 'sudoku') {
+        setSelectedType(typeParam)
+      }
+      if (difficultyParam === 'beginner' || difficultyParam === 'intermediate' || difficultyParam === 'expert') {
+        setSelectedDifficulty(difficultyParam)
+      }
+    }
     
     // Load progress from localStorage
-    const savedProgress = localStorage.getItem('lookout-quest-progress')
+    const savedProgress = localStorage.getItem('3as-dojo-progress')
     if (savedProgress) {
       try {
         setProgress(JSON.parse(savedProgress))
@@ -38,8 +52,27 @@ export default function QuizPage() {
   }, [])
 
   useEffect(() => {
+    // Filter questions based on difficulty and type
+    let filtered = [...quizData]
+    
+    if (selectedDifficulty !== 'all') {
+      filtered = filtered.filter(q => q.difficulty === selectedDifficulty)
+    }
+    
+    if (selectedType === 'questions') {
+      filtered = filtered.filter(q => q.type !== 'sudoku')
+    } else if (selectedType === 'sudoku') {
+      filtered = filtered.filter(q => q.type === 'sudoku')
+    }
+    
+    // Shuffle questions for variety
+    const shuffled = filtered.sort(() => Math.random() - 0.5)
+    setQuestions(shuffled)
+  }, [selectedDifficulty, selectedType])
+
+  useEffect(() => {
     // Save progress to localStorage
-    localStorage.setItem('lookout-quest-progress', JSON.stringify(progress))
+    localStorage.setItem('3as-dojo-progress', JSON.stringify(progress))
   }, [progress])
 
   const handleAnswer = (isCorrect: boolean, points: number) => {
@@ -68,12 +101,108 @@ export default function QuizPage() {
     setCurrentQuestionIndex(0)
     setProgress(getInitialProgress())
     setShowCompletion(false)
-    const shuffled = [...quizData].sort(() => Math.random() - 0.5)
-    setQuestions(shuffled)
+    setShowSelection(true)
+  }
+
+  const handleStartQuiz = () => {
+    if (questions.length === 0) {
+      alert('No questions available with selected filters. Please try different options.')
+      return
+    }
+    setShowSelection(false)
+    setCurrentQuestionIndex(0)
   }
 
   const currentQuestion = questions[currentQuestionIndex]
-  const progressPercent = ((currentQuestionIndex + 1) / questions.length) * 100
+  const progressPercent = questions.length > 0 ? ((currentQuestionIndex + 1) / questions.length) * 100 : 0
+
+  // Show selection screen
+  if (showSelection) {
+    return (
+      <div className="min-h-screen py-20 px-4 bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center mb-12"
+          >
+            <h1 className="text-5xl md:text-6xl font-black mb-4 bg-gradient-to-r from-primary-600 via-accent-600 to-primary-600 bg-clip-text text-transparent">
+              Choose Your Challenge
+            </h1>
+            <p className="text-xl text-slate-600">Select your difficulty level and challenge type</p>
+          </motion.div>
+
+          {/* Difficulty Selection */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="card mb-8"
+          >
+            <h2 className="text-2xl font-bold text-slate-800 mb-4">Difficulty Level</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {(['all', 'beginner', 'intermediate', 'expert'] as const).map((difficulty) => (
+                <button
+                  key={difficulty}
+                  onClick={() => setSelectedDifficulty(difficulty)}
+                  className={`p-4 rounded-xl border-2 transition-all font-semibold ${
+                    selectedDifficulty === difficulty
+                      ? 'bg-gradient-to-r from-primary-600 to-accent-600 text-white border-primary-600 shadow-lg scale-105'
+                      : 'bg-white text-slate-700 border-slate-200 hover:border-primary-300'
+                  }`}
+                >
+                  {difficulty === 'all' ? 'All Levels' : difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
+                </button>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Challenge Type Selection */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="card mb-8"
+          >
+            <h2 className="text-2xl font-bold text-slate-800 mb-4">Challenge Type</h2>
+            <div className="grid md:grid-cols-3 gap-4">
+              {(['all', 'questions', 'sudoku'] as const).map((type) => (
+                <button
+                  key={type}
+                  onClick={() => setSelectedType(type)}
+                  className={`p-6 rounded-xl border-2 transition-all font-semibold text-lg ${
+                    selectedType === type
+                      ? 'bg-gradient-to-r from-primary-600 to-accent-600 text-white border-primary-600 shadow-lg scale-105'
+                      : 'bg-white text-slate-700 border-slate-200 hover:border-primary-300'
+                  }`}
+                >
+                  {type === 'all' ? 'All Challenges' : type === 'questions' ? 'Quiz Questions' : 'Word Puzzles'}
+                </button>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Start Button */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="text-center"
+          >
+            <button
+              onClick={handleStartQuiz}
+              className="bg-gradient-to-r from-primary-600 to-accent-600 text-white font-black text-xl px-12 py-5 rounded-xl shadow-2xl hover:shadow-primary-500/50 transform hover:scale-105 transition-all"
+            >
+              Start Challenge
+            </button>
+            <p className="text-sm text-slate-500 mt-4">
+              {questions.length} question{questions.length !== 1 ? 's' : ''} available
+            </p>
+          </motion.div>
+        </div>
+      </div>
+    )
+  }
 
   if (showCompletion) {
     return (
@@ -119,10 +248,28 @@ export default function QuizPage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4 }}
-                className="text-2xl text-slate-600 mb-8 font-semibold"
+                className="text-2xl text-slate-600 mb-4 font-semibold"
               >
                 You've completed all challenges!
               </motion.p>
+
+              {/* Final Score - Prominent Display */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.45 }}
+                className="mb-8"
+              >
+                <div className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-400 rounded-2xl p-6 border-4 border-yellow-600 shadow-2xl">
+                  <div className="text-center">
+                    <div className="text-sm font-bold text-yellow-900 uppercase tracking-wider mb-2">Final Score</div>
+                    <div className="text-7xl md:text-8xl font-black text-yellow-900 mb-2">
+                      {progress.totalPoints}
+                    </div>
+                    <div className="text-lg font-semibold text-yellow-800">Points Earned</div>
+                  </div>
+                </div>
+              </motion.div>
 
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
