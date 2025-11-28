@@ -5,14 +5,13 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft, ArrowRight, Trophy, Home, Sparkles, Star, Zap, CheckCircle2, XCircle, Info, BookOpen } from 'lucide-react'
 import { quizData } from '@/data/quizData'
-import { Question, UserProgress } from '@/types/quiz'
+import { Question, UserProgress, Difficulty } from '@/types/quiz'
 import MSQQuestion from '@/components/quiz/MSQQuestion'
 import DragDropQuestion from '@/components/quiz/DragDropQuestion'
 import ClickSelectQuestion from '@/components/quiz/ClickSelectQuestion'
 import SudokuQuestion from '@/components/quiz/SudokuQuestion'
 import ProgressTracker from '@/components/ProgressTracker'
 import { updateProgress, getInitialProgress } from '@/utils/gamification'
-import { Difficulty } from '@/types/quiz'
 
 export default function QuizPage() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
@@ -652,8 +651,7 @@ export default function QuizPage() {
 
           <button
             onClick={handleNext}
-            disabled={currentQuestionIndex >= questions.length - 1}
-            className="bg-gradient-to-r from-primary-600 to-accent-600 text-white font-bold px-8 py-3 rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none inline-flex items-center gap-2"
+            className="bg-gradient-to-r from-primary-600 to-accent-600 text-white font-bold px-8 py-3 rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all inline-flex items-center gap-2"
           >
             {currentQuestionIndex >= questions.length - 1 ? 'Finish' : 'Next'}
             <ArrowRight className="w-5 h-5" />

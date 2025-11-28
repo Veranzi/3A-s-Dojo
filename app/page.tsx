@@ -95,6 +95,18 @@ export default function Home() {
     setMounted(true)
   }, [])
 
+  // Show content immediately, don't wait for mounted
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-primary-600 border-t-transparent rounded-full mx-auto mb-4 animate-spin"></div>
+          <p className="text-slate-600 font-semibold">Loading...</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
       {/* Hero Section */}
@@ -115,14 +127,14 @@ export default function Home() {
         <div className="max-w-7xl mx-auto relative z-10 px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: mounted ? 1 : 0, y: mounted ? 0 : 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="text-center"
           >
             {/* Animated Logo */}
             <motion.div
               initial={{ scale: 0, rotate: -180 }}
-              animate={{ scale: mounted ? 1 : 0, rotate: mounted ? 0 : -180 }}
+              animate={{ scale: 1, rotate: 0 }}
               transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
               className="inline-block mb-6"
             >
@@ -143,7 +155,7 @@ export default function Home() {
             
             <motion.h1 
               initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: mounted ? 1 : 0, y: mounted ? 0 : 20 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
               className="text-5xl md:text-6xl font-black mb-3 bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent leading-tight drop-shadow-2xl"
               style={{ textShadow: '0 4px 20px rgba(0,0,0,0.5), 0 2px 10px rgba(0,0,0,0.3)' }}
@@ -153,7 +165,7 @@ export default function Home() {
             
             <motion.p 
               initial={{ opacity: 0 }}
-              animate={{ opacity: mounted ? 1 : 0 }}
+              animate={{ opacity: 1 }}
               transition={{ delay: 0.4 }}
               className="text-xl md:text-2xl text-white font-bold mb-2 drop-shadow-lg"
               style={{ textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}
@@ -163,7 +175,7 @@ export default function Home() {
             
             <motion.p 
               initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: mounted ? 1 : 0, y: mounted ? 0 : 10 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
               className="text-base md:text-lg text-white mb-8 max-w-2xl mx-auto leading-relaxed drop-shadow-md"
               style={{ textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}
@@ -174,7 +186,7 @@ export default function Home() {
             
             <motion.div
               initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: mounted ? 1 : 0, y: mounted ? 0 : 20 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
               className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12"
             >
@@ -198,7 +210,7 @@ export default function Home() {
             {/* Quick Stats */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: mounted ? 1 : 0, y: mounted ? 0 : 20 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7 }}
               className="grid grid-cols-3 gap-6 max-w-2xl mx-auto"
             >
@@ -206,7 +218,7 @@ export default function Home() {
                 <motion.div
                   key={stat.label}
                   initial={{ opacity: 0, scale: 0.5 }}
-                  animate={{ opacity: mounted ? 1 : 0, scale: mounted ? 1 : 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.8 + index * 0.1 }}
                   className="bg-white/90 backdrop-blur-md rounded-xl p-4 border border-white/40 shadow-lg"
                 >
