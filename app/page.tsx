@@ -98,14 +98,15 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
       {/* Hero Section */}
-      <section className="relative overflow-hidden pt-12 pb-20 px-4">
+      <section className="relative overflow-hidden pt-8 pb-12 px-4">
         {/* Background Image */}
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-60"
           style={{
             backgroundImage: 'url(/hero.jpeg)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
+            transform: 'scale(0.8)',
           }}
         >
           <div className="absolute inset-0 bg-gradient-to-br from-primary-600/85 via-accent-600/85 to-primary-700/85"></div>
@@ -124,18 +125,18 @@ export default function Home() {
               initial={{ scale: 0, rotate: -180 }}
               animate={{ scale: mounted ? 1 : 0, rotate: mounted ? 0 : -180 }}
               transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-              className="inline-block mb-8"
+              className="inline-block mb-6"
             >
               <div className="relative">
                 <div className="absolute inset-0 bg-gradient-to-r from-primary-400 to-accent-400 rounded-full blur-2xl opacity-50 animate-pulse"></div>
-                <div className="relative glass-effect rounded-full p-6 bg-gradient-to-br from-primary-500 to-accent-500">
-                  <Shield className="w-20 h-20 text-white" />
+                <div className="relative glass-effect rounded-full p-4 bg-gradient-to-br from-primary-500 to-accent-500">
+                  <Shield className="w-16 h-16 text-white" />
                   <motion.div
                     animate={{ rotate: 360 }}
                     transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                     className="absolute -top-2 -right-2"
                   >
-                    <Sparkles className="w-8 h-8 text-yellow-400" />
+                    <Sparkles className="w-6 h-6 text-yellow-400" />
                   </motion.div>
                 </div>
               </div>
@@ -145,7 +146,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: mounted ? 1 : 0, y: mounted ? 0 : 20 }}
               transition={{ delay: 0.3 }}
-              className="text-7xl md:text-8xl font-black mb-4 bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent leading-tight drop-shadow-2xl"
+              className="text-5xl md:text-6xl font-black mb-3 bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent leading-tight drop-shadow-2xl"
               style={{ textShadow: '0 4px 20px rgba(0,0,0,0.5), 0 2px 10px rgba(0,0,0,0.3)' }}
             >
               3A's Dojo
@@ -155,7 +156,7 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: mounted ? 1 : 0 }}
               transition={{ delay: 0.4 }}
-              className="text-2xl md:text-3xl text-white font-bold mb-3 drop-shadow-lg"
+              className="text-xl md:text-2xl text-white font-bold mb-2 drop-shadow-lg"
               style={{ textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}
             >
               Level Up Your Cyber Defense! 🛡️
@@ -165,7 +166,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: mounted ? 1 : 0, y: mounted ? 0 : 10 }}
               transition={{ delay: 0.5 }}
-              className="text-lg md:text-xl text-white mb-10 max-w-2xl mx-auto leading-relaxed drop-shadow-md"
+              className="text-base md:text-lg text-white mb-8 max-w-2xl mx-auto leading-relaxed drop-shadow-md"
               style={{ textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}
             >
               Master cybersecurity and data protection through fun, interactive challenges. 
@@ -180,16 +181,16 @@ export default function Home() {
             >
               <Link 
                 href="/quiz" 
-                className="group relative overflow-hidden bg-gradient-to-r from-primary-600 via-accent-600 to-primary-600 text-white font-bold text-xl px-10 py-5 rounded-2xl shadow-2xl hover:shadow-primary-500/50 transform hover:scale-105 transition-all duration-300 flex items-center gap-3"
+                className="group relative overflow-hidden bg-gradient-to-r from-primary-600 via-accent-600 to-primary-600 text-white font-bold text-lg px-8 py-4 rounded-2xl shadow-2xl hover:shadow-primary-500/50 transform hover:scale-105 transition-all duration-300 flex items-center gap-3"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-primary-400 to-accent-400 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                <Play className="w-6 h-6 relative z-10" />
+                <Play className="w-5 h-5 relative z-10" />
                 <span className="relative z-10">Start Playing Now</span>
-                <ArrowRight className="w-6 h-6 relative z-10 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link 
                 href="/about" 
-                className="bg-white/95 backdrop-blur-sm text-primary-700 font-semibold text-lg px-8 py-5 rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 border-2 border-white/50 hover:border-white"
+                className="bg-white/95 backdrop-blur-sm text-primary-700 font-semibold text-base px-6 py-4 rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 border-2 border-white/50 hover:border-white"
               >
                 Learn More
               </Link>
