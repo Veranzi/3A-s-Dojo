@@ -1,6 +1,6 @@
-# RadaQuest 🛡️
+# Lookout Quest 🛡️
 
-A gamified cybersecurity awareness platform designed to teach users safe online practices in Kenya through interactive quizzes and challenges.
+A gamified cybersecurity and data protection awareness platform designed to teach users safe online practices and data protection rights in Kenya through interactive quizzes and challenges.
 
 ## Features
 

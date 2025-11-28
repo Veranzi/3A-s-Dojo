@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Trophy, Star, Target, Zap } from 'lucide-react'
+import { Trophy, Star, Target, Zap, TrendingUp, Award } from 'lucide-react'
 import { UserProgress } from '@/types/quiz'
 
 interface ProgressTrackerProps {
@@ -16,13 +16,37 @@ export default function ProgressTracker({ progress }: ProgressTrackerProps) {
   const getLevelInfo = (level: string) => {
     switch (level) {
       case 'beginner':
-        return { name: 'Beginner', color: 'bg-green-500', icon: Star }
+        return { 
+          name: 'Beginner', 
+          color: 'from-green-500 to-emerald-600',
+          bgColor: 'bg-green-500',
+          icon: Star,
+          gradient: 'bg-gradient-to-br from-green-400 to-emerald-500'
+        }
       case 'intermediate':
-        return { name: 'Intermediate', color: 'bg-blue-500', icon: Target }
+        return { 
+          name: 'Intermediate', 
+          color: 'from-blue-500 to-cyan-600',
+          bgColor: 'bg-blue-500',
+          icon: Target,
+          gradient: 'bg-gradient-to-br from-blue-400 to-cyan-500'
+        }
       case 'expert':
-        return { name: 'Expert', color: 'bg-purple-500', icon: Trophy }
+        return { 
+          name: 'Expert', 
+          color: 'from-purple-500 to-pink-600',
+          bgColor: 'bg-purple-500',
+          icon: Trophy,
+          gradient: 'bg-gradient-to-br from-purple-400 to-pink-500'
+        }
       default:
-        return { name: 'Beginner', color: 'bg-green-500', icon: Star }
+        return { 
+          name: 'Beginner', 
+          color: 'from-green-500 to-emerald-600',
+          bgColor: 'bg-green-500',
+          icon: Star,
+          gradient: 'bg-gradient-to-br from-green-400 to-emerald-500'
+        }
     }
   }
 
@@ -48,74 +72,138 @@ export default function ProgressTracker({ progress }: ProgressTrackerProps) {
     : 100
 
   return (
-    <div className="card mb-6">
+    <div className="mb-8 relative">
+      {/* Main Stats Grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-        <div className="text-center">
-          <div className="flex items-center justify-center gap-2 mb-2">
-            <Trophy className="w-5 h-5 text-yellow-500" />
-            <span className="text-2xl font-bold text-slate-800">{progress.totalPoints}</span>
+        {/* Points */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="relative group"
+        >
+          <div className="absolute inset-0 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-2xl blur-lg opacity-50 group-hover:opacity-75 transition-opacity"></div>
+          <div className="relative bg-white/90 backdrop-blur-sm rounded-2xl p-5 border-2 border-yellow-200 shadow-xl">
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <Trophy className="w-6 h-6 text-yellow-500" />
+            </div>
+            <div className="text-3xl font-black text-slate-800 mb-1">{progress.totalPoints}</div>
+            <p className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Points</p>
           </div>
-          <p className="text-sm text-slate-600">Total Points</p>
-        </div>
+        </motion.div>
 
-        <div className="text-center">
-          <div className="flex items-center justify-center gap-2 mb-2">
-            <LevelIcon className={`w-5 h-5 ${levelInfo.color.replace('bg-', 'text-')}`} />
-            <span className="text-lg font-bold text-slate-800">{levelInfo.name}</span>
+        {/* Level */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.1 }}
+          className="relative group"
+        >
+          <div className={`absolute inset-0 bg-gradient-to-br ${levelInfo.color} rounded-2xl blur-lg opacity-50 group-hover:opacity-75 transition-opacity`}></div>
+          <div className={`relative ${levelInfo.gradient} rounded-2xl p-5 shadow-xl text-white`}>
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <LevelIcon className="w-6 h-6" />
+            </div>
+            <div className="text-2xl font-black mb-1">{levelInfo.name}</div>
+            <p className="text-xs font-semibold text-white/80 uppercase tracking-wide">Level</p>
           </div>
-          <p className="text-sm text-slate-600">Current Level</p>
-        </div>
+        </motion.div>
 
-        <div className="text-center">
-          <div className="flex items-center justify-center gap-2 mb-2">
-            <Target className="w-5 h-5 text-blue-500" />
-            <span className="text-2xl font-bold text-slate-800">{accuracy}%</span>
+        {/* Accuracy */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.2 }}
+          className="relative group"
+        >
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl blur-lg opacity-50 group-hover:opacity-75 transition-opacity"></div>
+          <div className="relative bg-white/90 backdrop-blur-sm rounded-2xl p-5 border-2 border-blue-200 shadow-xl">
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <Target className="w-6 h-6 text-blue-500" />
+            </div>
+            <div className="text-3xl font-black text-slate-800 mb-1">{accuracy}%</div>
+            <p className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Accuracy</p>
           </div>
-          <p className="text-sm text-slate-600">Accuracy</p>
-        </div>
+        </motion.div>
 
-        <div className="text-center">
-          <div className="flex items-center justify-center gap-2 mb-2">
-            <Zap className="w-5 h-5 text-orange-500" />
-            <span className="text-2xl font-bold text-slate-800">{progress.streak}</span>
+        {/* Streak */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.3 }}
+          className="relative group"
+        >
+          <div className="absolute inset-0 bg-gradient-to-br from-orange-400 to-red-600 rounded-2xl blur-lg opacity-50 group-hover:opacity-75 transition-opacity"></div>
+          <div className="relative bg-white/90 backdrop-blur-sm rounded-2xl p-5 border-2 border-orange-200 shadow-xl">
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <Zap className="w-6 h-6 text-orange-500" />
+            </div>
+            <div className="text-3xl font-black text-slate-800 mb-1">{progress.streak}</div>
+            <p className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Streak</p>
           </div>
-          <p className="text-sm text-slate-600">Streak</p>
-        </div>
+        </motion.div>
       </div>
 
+      {/* Level Progress */}
       {nextLevelPoints !== Infinity && (
-        <div>
-          <div className="flex justify-between text-sm text-slate-600 mb-2">
-            <span>Progress to {progress.level === 'beginner' ? 'Intermediate' : 'Expert'}</span>
-            <span>{progress.totalPoints} / {nextLevelPoints} pts</span>
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white/90 backdrop-blur-sm rounded-2xl p-5 border-2 border-primary-200 shadow-lg mb-6"
+        >
+          <div className="flex justify-between items-center mb-3">
+            <div className="flex items-center gap-2">
+              <TrendingUp className="w-5 h-5 text-primary-600" />
+              <span className="font-bold text-slate-800">
+                Progress to {progress.level === 'beginner' ? 'Intermediate' : 'Expert'}
+              </span>
+            </div>
+            <span className="text-sm font-bold text-primary-600">
+              {progress.totalPoints} / {nextLevelPoints} pts
+            </span>
           </div>
-          <div className="w-full bg-slate-200 rounded-full h-3 overflow-hidden">
+          <div className="w-full bg-slate-200 rounded-full h-4 overflow-hidden shadow-inner">
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${progressToNext}%` }}
-              transition={{ duration: 0.5 }}
-              className={`h-full ${levelInfo.color} rounded-full`}
-            />
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className={`h-full bg-gradient-to-r ${levelInfo.color} rounded-full relative overflow-hidden`}
+            >
+              <motion.div
+                animate={{ x: ['-100%', '100%'] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent"
+              ></motion.div>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
       )}
 
+      {/* Badges */}
       {progress.badges.length > 0 && (
-        <div className="mt-6 pt-6 border-t border-slate-200">
-          <p className="text-sm font-semibold text-slate-700 mb-3">Earned Badges</p>
-          <div className="flex flex-wrap gap-2">
-            {progress.badges.map((badge) => (
-              <span
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-2xl p-5 border-2 border-yellow-200 shadow-lg"
+        >
+          <div className="flex items-center gap-2 mb-4">
+            <Award className="w-6 h-6 text-yellow-600" />
+            <h3 className="text-lg font-black text-slate-800">🏆 Earned Badges</h3>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            {progress.badges.map((badge, index) => (
+              <motion.span
                 key={badge}
-                className="badge bg-yellow-100 text-yellow-700 border border-yellow-300"
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: index * 0.1 }}
+                className="badge bg-gradient-to-r from-yellow-400 to-yellow-500 text-yellow-900 border-2 border-yellow-600 font-bold px-4 py-2 shadow-md hover:shadow-lg transform hover:scale-105 transition-all"
               >
-                {badge}
-              </span>
+                ⭐ {badge}
+              </motion.span>
             ))}
           </div>
-        </div>
+        </motion.div>
       )}
     </div>
   )
 }
-

@@ -1,4 +1,4 @@
-# Deployment Guide for RadaQuest
+# Deployment Guide for Lookout Quest
 
 ## Deploying to Vercel
 
@@ -8,7 +8,7 @@
    ```bash
    git init
    git add .
-   git commit -m "Initial commit: RadaQuest"
+   git commit -m "Initial commit: Lookout Quest"
    git branch -M main
    git remote add origin <your-github-repo-url>
    git push -u origin main

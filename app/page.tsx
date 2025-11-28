@@ -13,7 +13,10 @@ import {
   ArrowRight,
   Star,
   Target,
-  Users
+  Users,
+  Play,
+  Sparkles,
+  TrendingUp
 } from 'lucide-react'
 
 export default function Home() {
@@ -24,10 +27,12 @@ export default function Home() {
   }, [])
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
       {/* Hero Section */}
-      <section className="relative overflow-hidden pt-20 pb-32 px-4">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary-500/10 via-accent-500/10 to-primary-600/10"></div>
+      <section className="relative overflow-hidden pt-12 pb-20 px-4">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary-500/20 via-accent-500/20 to-primary-600/20"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(14,165,233,0.1),transparent_50%)]"></div>
+        
         <div className="max-w-7xl mx-auto relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -35,66 +40,162 @@ export default function Home() {
             transition={{ duration: 0.6 }}
             className="text-center"
           >
+            {/* Animated Logo */}
             <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: mounted ? 1 : 0 }}
+              initial={{ scale: 0, rotate: -180 }}
+              animate={{ scale: mounted ? 1 : 0, rotate: mounted ? 0 : -180 }}
               transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-              className="inline-block mb-6"
+              className="inline-block mb-8"
             >
-              <div className="glass-effect rounded-full p-4">
-                <Shield className="w-16 h-16 text-primary-600" />
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-primary-400 to-accent-400 rounded-full blur-2xl opacity-50 animate-pulse"></div>
+                <div className="relative glass-effect rounded-full p-6 bg-gradient-to-br from-primary-500 to-accent-500">
+                  <Shield className="w-20 h-20 text-white" />
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                    className="absolute -top-2 -right-2"
+                  >
+                    <Sparkles className="w-8 h-8 text-yellow-400" />
+                  </motion.div>
+                </div>
               </div>
             </motion.div>
             
-            <h1 className="text-6xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-primary-600 via-accent-600 to-primary-600 bg-clip-text text-transparent">
-              RadaQuest
-            </h1>
+            <motion.h1 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: mounted ? 1 : 0, y: mounted ? 0 : 20 }}
+              transition={{ delay: 0.3 }}
+              className="text-7xl md:text-8xl font-black mb-4 bg-gradient-to-r from-primary-600 via-accent-600 to-primary-600 bg-clip-text text-transparent leading-tight"
+            >
+              Lookout Quest
+            </motion.h1>
             
-            <p className="text-xl md:text-2xl text-slate-700 mb-8 max-w-3xl mx-auto">
-              Master cybersecurity through interactive challenges. Learn to protect yourself from 
-              phishing, scams, and cyber threats in Kenya.
-            </p>
+            <motion.p 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: mounted ? 1 : 0 }}
+              transition={{ delay: 0.4 }}
+              className="text-2xl md:text-3xl text-primary-600 font-bold mb-3"
+            >
+              Level Up Your Cyber Defense! 🛡️
+            </motion.p>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Link href="/quiz" className="btn-primary text-lg px-8 py-4 flex items-center gap-2">
-                Start Learning
-                <ArrowRight className="w-5 h-5" />
+            <motion.p 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: mounted ? 1 : 0, y: mounted ? 0 : 10 }}
+              transition={{ delay: 0.5 }}
+              className="text-lg md:text-xl text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed"
+            >
+              Master cybersecurity and data protection through fun, interactive challenges. 
+              Earn points, unlock badges, and become a cyber hero!
+            </motion.p>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: mounted ? 1 : 0, y: mounted ? 0 : 20 }}
+              transition={{ delay: 0.6 }}
+              className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12"
+            >
+              <Link 
+                href="/quiz" 
+                className="group relative overflow-hidden bg-gradient-to-r from-primary-600 via-accent-600 to-primary-600 text-white font-bold text-xl px-10 py-5 rounded-2xl shadow-2xl hover:shadow-primary-500/50 transform hover:scale-105 transition-all duration-300 flex items-center gap-3"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-primary-400 to-accent-400 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <Play className="w-6 h-6 relative z-10" fill="currentColor" />
+                <span className="relative z-10">Start Playing Now</span>
+                <ArrowRight className="w-6 h-6 relative z-10 group-hover:translate-x-1 transition-transform" />
               </Link>
-              <Link href="/about" className="btn-secondary text-lg px-8 py-4">
+              <Link 
+                href="/about" 
+                className="bg-white/90 backdrop-blur-sm text-primary-700 font-semibold text-lg px-8 py-5 rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 border-2 border-primary-200 hover:border-primary-400"
+              >
                 Learn More
               </Link>
-            </div>
+            </motion.div>
+
+            {/* Quick Stats */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: mounted ? 1 : 0, y: mounted ? 0 : 20 }}
+              transition={{ delay: 0.7 }}
+              className="grid grid-cols-3 gap-6 max-w-2xl mx-auto"
+            >
+              {quickStats.map((stat, index) => (
+                <motion.div
+                  key={stat.label}
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: mounted ? 1 : 0, scale: mounted ? 1 : 0.5 }}
+                  transition={{ delay: 0.8 + index * 0.1 }}
+                  className="bg-white/60 backdrop-blur-sm rounded-xl p-4 border border-white/20"
+                >
+                  <div className="text-3xl font-bold text-primary-600 mb-1">{stat.value}</div>
+                  <div className="text-sm text-slate-600 font-medium">{stat.label}</div>
+                </motion.div>
+              ))}
+            </motion.div>
           </motion.div>
         </div>
+      </section>
 
-        {/* Floating elements */}
-        <motion.div
-          animate={{ y: [0, -20, 0] }}
-          transition={{ duration: 4, repeat: Infinity }}
-          className="absolute top-20 left-10 w-20 h-20 bg-primary-200/30 rounded-full blur-xl"
-        />
-        <motion.div
-          animate={{ y: [0, 20, 0] }}
-          transition={{ duration: 5, repeat: Infinity, delay: 1 }}
-          className="absolute bottom-20 right-10 w-32 h-32 bg-accent-200/30 rounded-full blur-xl"
-        />
+      {/* Quiz Types Preview */}
+      <section className="py-16 px-4 -mt-8">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-4xl md:text-5xl font-black mb-4 text-slate-800">
+              Choose Your Challenge Type
+            </h2>
+            <p className="text-xl text-slate-600">
+              Three exciting ways to learn and earn points
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {quizTypes.map((type, index) => (
+              <motion.div
+                key={type.name}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="group relative"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-primary-400 to-accent-400 rounded-3xl blur-xl opacity-0 group-hover:opacity-50 transition-opacity"></div>
+                <div className="relative card hover:scale-105 transition-all duration-300 cursor-pointer border-2 border-transparent hover:border-primary-300">
+                  <div className={`w-16 h-16 rounded-2xl ${type.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
+                    <type.icon className="w-8 h-8 text-white" />
+                  </div>
+                  <h3 className="text-2xl font-bold mb-3 text-slate-800">{type.name}</h3>
+                  <p className="text-slate-600 mb-4">{type.description}</p>
+                  <div className="flex items-center gap-2 text-sm font-semibold text-primary-600">
+                    <TrendingUp className="w-4 h-4" />
+                    <span>{type.points} points per question</span>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* Features Section */}
-      <section className="py-20 px-4">
+      <section className="py-20 px-4 bg-white/50">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-slate-800">
-              Why Choose RadaQuest?
+            <h2 className="text-4xl md:text-5xl font-black mb-4 text-slate-800">
+              Why Players Love Lookout Quest
             </h2>
             <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-              Engaging, interactive, and designed specifically for Kenyan cybersecurity challenges
+              More than just learning - it's an adventure!
             </p>
           </motion.div>
 
@@ -106,10 +207,10 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="card group hover:scale-105"
+                className="group card hover:scale-105 hover:shadow-2xl"
               >
-                <div className="w-14 h-14 bg-gradient-to-br from-primary-500 to-accent-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <feature.icon className="w-7 h-7 text-white" />
+                <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-accent-500 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all">
+                  <feature.icon className="w-8 h-8 text-white" />
                 </div>
                 <h3 className="text-xl font-bold mb-2 text-slate-800">{feature.title}</h3>
                 <p className="text-slate-600">{feature.description}</p>
@@ -119,46 +220,36 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-20 px-4 bg-gradient-to-r from-primary-600 to-accent-600">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            {stats.map((stat, index) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, scale: 0.5 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="text-white"
-              >
-                <div className="text-4xl md:text-5xl font-bold mb-2">{stat.value}</div>
-                <div className="text-primary-100">{stat.label}</div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* CTA Section */}
-      <section className="py-20 px-4">
-        <div className="max-w-4xl mx-auto text-center">
+      <section className="py-24 px-4 bg-gradient-to-r from-primary-600 via-accent-600 to-primary-600 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.1"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
+        <div className="max-w-4xl mx-auto text-center relative z-10">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="card"
+            className="text-white"
           >
-            <Trophy className="w-16 h-16 text-yellow-500 mx-auto mb-6" />
-            <h2 className="text-4xl font-bold mb-4 text-slate-800">
-              Ready to Level Up Your Cybersecurity Skills?
+            <motion.div
+              animate={{ rotate: [0, 10, -10, 0] }}
+              transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+              className="inline-block mb-6"
+            >
+              <Trophy className="w-24 h-24 text-yellow-300 drop-shadow-lg" />
+            </motion.div>
+            <h2 className="text-5xl md:text-6xl font-black mb-6 drop-shadow-lg">
+              Ready to Become a Cyber Hero?
             </h2>
-            <p className="text-xl text-slate-600 mb-8">
-              Start your journey today. No sign-up required. Learn at your own pace.
+            <p className="text-2xl mb-10 text-primary-100 font-medium">
+              Join thousands learning to protect themselves. Start your quest now!
             </p>
-            <Link href="/quiz" className="btn-primary text-lg px-8 py-4 inline-flex items-center gap-2">
-              Begin Your Quest
-              <ArrowRight className="w-5 h-5" />
+            <Link 
+              href="/quiz" 
+              className="inline-flex items-center gap-3 bg-white text-primary-600 font-black text-xl px-12 py-6 rounded-2xl shadow-2xl hover:shadow-white/50 transform hover:scale-110 transition-all duration-300"
+            >
+              <Play className="w-6 h-6" fill="currentColor" />
+              Start Your Quest
+              <ArrowRight className="w-6 h-6" />
             </Link>
           </motion.div>
         </div>
@@ -169,10 +260,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
             <Shield className="w-6 h-6 text-primary-400" />
-            <span className="text-xl font-bold">RadaQuest</span>
+            <span className="text-xl font-bold">Lookout Quest</span>
           </div>
           <p className="text-slate-400 mb-4">
-            Empowering Kenya with cybersecurity knowledge through gamified learning
+            Empowering Kenya with cybersecurity and data protection knowledge through gamified learning
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-4">
             <Link href="/privacy" className="text-slate-400 hover:text-primary-400 text-sm transition-colors">
@@ -184,7 +275,7 @@ export default function Home() {
             </Link>
           </div>
           <p className="text-slate-500 text-sm">
-            © 2025 RadaQuest.
+            © 2025 Lookout Quest.
           </p>
         </div>
       </footer>
@@ -192,43 +283,65 @@ export default function Home() {
   )
 }
 
-const features = [
+const quickStats = [
+  { value: '17+', label: 'Challenges' },
+  { value: '3', label: 'Quiz Types' },
+  { value: '100%', label: 'Free' },
+]
+
+const quizTypes = [
   {
+    name: 'Multiple Choice',
+    description: 'Select all correct answers from multiple options. Test your comprehensive knowledge!',
     icon: Brain,
-    title: 'Interactive Learning',
-    description: 'Engage with multiple quiz types: MSQ, drag-and-drop, and click-to-select challenges.',
+    color: 'bg-gradient-to-br from-blue-500 to-blue-600',
+    points: '10-20',
   },
   {
+    name: 'Drag & Drop',
+    description: 'Match items to categories by dragging. Perfect for visual learners!',
+    icon: Target,
+    color: 'bg-gradient-to-br from-purple-500 to-purple-600',
+    points: '15-20',
+  },
+  {
+    name: 'Click to Select',
+    description: 'Choose the single best answer. Quick and engaging!',
+    icon: Zap,
+    color: 'bg-gradient-to-br from-green-500 to-green-600',
+    points: '10-20',
+  },
+]
+
+const features = [
+  {
     icon: Trophy,
-    title: 'Gamified Experience',
-    description: 'Earn points, unlock badges, and progress through beginner to expert levels.',
+    title: 'Earn Badges & Rewards',
+    description: 'Unlock achievements as you progress. Show off your cyber skills!',
+  },
+  {
+    icon: TrendingUp,
+    title: 'Level Up System',
+    description: 'Progress from Beginner to Expert. Track your growth in real-time.',
   },
   {
     icon: Shield,
-    title: 'Kenyan Context',
-    description: 'Real-world scenarios featuring M-Pesa fraud, WhatsApp scams, and local threats.',
+    title: 'Real-World Scenarios',
+    description: 'Learn from actual Kenyan cybersecurity and data protection cases.',
   },
   {
-    icon: Zap,
-    title: 'AI-Powered Explanations',
-    description: 'Understand why answers are correct or incorrect with intelligent feedback.',
+    icon: Star,
+    title: 'Streak Tracking',
+    description: 'Build your streak by answering correctly. How long can you go?',
   },
   {
     icon: Lock,
-    title: 'No Login Required',
-    description: 'Start learning immediately. No barriers, no sign-up, completely anonymous.',
+    title: 'Privacy First',
+    description: 'No sign-up needed. Your progress stays on your device.',
   },
   {
     icon: Award,
-    title: 'Progress Tracking',
-    description: 'Track your improvement with detailed progress indicators and achievements.',
+    title: 'Instant Feedback',
+    description: 'Get explanations immediately. Learn from every answer.',
   },
 ]
-
-const stats = [
-  { value: '3+', label: 'Quiz Types' },
-  { value: '50+', label: 'Scenarios' },
-  { value: '100%', label: 'Free' },
-  { value: '24/7', label: 'Available' },
-]
-

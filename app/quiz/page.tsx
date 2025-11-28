@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
-import { ArrowLeft, ArrowRight, Trophy, Home } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Trophy, Home, Sparkles, Star, Zap } from 'lucide-react'
 import { quizData } from '@/data/quizData'
 import { Question, UserProgress } from '@/types/quiz'
 import MSQQuestion from '@/components/quiz/MSQQuestion'
@@ -17,6 +17,8 @@ export default function QuizPage() {
   const [progress, setProgress] = useState<UserProgress>(getInitialProgress())
   const [questions, setQuestions] = useState<Question[]>([])
   const [showCompletion, setShowCompletion] = useState(false)
+  const [showCelebration, setShowCelebration] = useState(false)
+  const [lastAnswerCorrect, setLastAnswerCorrect] = useState(false)
 
   useEffect(() => {
     // Shuffle questions for variety
@@ -24,7 +26,7 @@ export default function QuizPage() {
     setQuestions(shuffled)
     
     // Load progress from localStorage
-    const savedProgress = localStorage.getItem('radaquest-progress')
+    const savedProgress = localStorage.getItem('lookout-quest-progress')
     if (savedProgress) {
       try {
         setProgress(JSON.parse(savedProgress))
@@ -36,12 +38,18 @@ export default function QuizPage() {
 
   useEffect(() => {
     // Save progress to localStorage
-    localStorage.setItem('radaquest-progress', JSON.stringify(progress))
+    localStorage.setItem('lookout-quest-progress', JSON.stringify(progress))
   }, [progress])
 
   const handleAnswer = (isCorrect: boolean, points: number) => {
     const currentQuestion = questions[currentQuestionIndex]
     if (!currentQuestion) return
+
+    setLastAnswerCorrect(isCorrect)
+    if (isCorrect) {
+      setShowCelebration(true)
+      setTimeout(() => setShowCelebration(false), 2000)
+    }
 
     const updatedProgress = updateProgress(progress, isCorrect, points, currentQuestion)
     setProgress(updatedProgress)
@@ -64,6 +72,7 @@ export default function QuizPage() {
   }
 
   const currentQuestion = questions[currentQuestionIndex]
+  const progressPercent = ((currentQuestionIndex + 1) / questions.length) * 100
 
   if (showCompletion) {
     return (
@@ -72,65 +81,126 @@ export default function QuizPage() {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="card text-center"
+            className="card text-center relative overflow-hidden"
           >
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
-              className="inline-block mb-6"
-            >
-              <Trophy className="w-24 h-24 text-yellow-500" />
-            </motion.div>
+            {/* Celebration Background */}
+            <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/20 via-primary-400/20 to-accent-400/20"></div>
+            
+            <div className="relative z-10">
+              <motion.div
+                initial={{ scale: 0, rotate: -180 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
+                className="inline-block mb-6"
+              >
+                <div className="relative">
+                  <div className="absolute inset-0 bg-yellow-400 rounded-full blur-2xl opacity-50 animate-pulse"></div>
+                  <Trophy className="w-32 h-32 text-yellow-500 relative z-10" />
+                  <motion.div
+                    animate={{ rotate: 360, scale: [1, 1.2, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                    className="absolute -top-4 -right-4"
+                  >
+                    <Sparkles className="w-12 h-12 text-yellow-400" />
+                  </motion.div>
+                </div>
+              </motion.div>
 
-            <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
-              Congratulations! 🎉
-            </h1>
-            <p className="text-xl text-slate-600 mb-8">
-              You've completed all questions!
-            </p>
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="text-5xl md:text-6xl font-black mb-4 bg-gradient-to-r from-primary-600 via-accent-600 to-primary-600 bg-clip-text text-transparent"
+              >
+                🎉 Congratulations! 🎉
+              </motion.h1>
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4 }}
+                className="text-2xl text-slate-600 mb-8 font-semibold"
+              >
+                You've completed all challenges!
+              </motion.p>
 
-            <div className="bg-gradient-to-r from-primary-50 to-accent-50 rounded-xl p-6 mb-8">
-              <div className="grid grid-cols-2 gap-4 text-center">
-                <div>
-                  <div className="text-3xl font-bold text-primary-600 mb-1">
-                    {progress.totalPoints}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                className="bg-gradient-to-r from-primary-500/20 to-accent-500/20 rounded-2xl p-8 mb-8 border-2 border-primary-200"
+              >
+                <div className="grid grid-cols-2 gap-6 text-center">
+                  <div>
+                    <div className="text-5xl font-black text-primary-600 mb-2">
+                      {progress.totalPoints}
+                    </div>
+                    <div className="text-sm font-semibold text-slate-600 uppercase tracking-wide">Total Points</div>
                   </div>
-                  <div className="text-sm text-slate-600">Total Points</div>
-                </div>
-                <div>
-                  <div className="text-3xl font-bold text-accent-600 mb-1">
-                    {Math.round((progress.correctAnswers / progress.questionsAnswered) * 100)}%
+                  <div>
+                    <div className="text-5xl font-black text-accent-600 mb-2">
+                      {Math.round((progress.correctAnswers / progress.questionsAnswered) * 100)}%
+                    </div>
+                    <div className="text-sm font-semibold text-slate-600 uppercase tracking-wide">Accuracy</div>
                   </div>
-                  <div className="text-sm text-slate-600">Accuracy</div>
+                  <div>
+                    <div className="text-4xl font-black text-green-600 mb-2">
+                      {progress.streak}
+                    </div>
+                    <div className="text-sm font-semibold text-slate-600 uppercase tracking-wide">Best Streak</div>
+                  </div>
+                  <div>
+                    <div className="text-4xl font-black text-purple-600 mb-2">
+                      {progress.badges.length}
+                    </div>
+                    <div className="text-sm font-semibold text-slate-600 uppercase tracking-wide">Badges</div>
+                  </div>
                 </div>
-              </div>
-            </div>
+              </motion.div>
 
-            {progress.badges.length > 0 && (
-              <div className="mb-8">
-                <h2 className="text-xl font-semibold mb-4">Badges Earned</h2>
-                <div className="flex flex-wrap justify-center gap-2">
-                  {progress.badges.map((badge) => (
-                    <span
-                      key={badge}
-                      className="badge bg-yellow-100 text-yellow-700 border border-yellow-300 text-sm px-4 py-2"
-                    >
-                      {badge}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
+              {progress.badges.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 }}
+                  className="mb-8"
+                >
+                  <h2 className="text-2xl font-black mb-4 text-slate-800">🏆 Badges Earned</h2>
+                  <div className="flex flex-wrap justify-center gap-3">
+                    {progress.badges.map((badge, index) => (
+                      <motion.span
+                        key={badge}
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.7 + index * 0.1 }}
+                        className="badge bg-gradient-to-r from-yellow-400 to-yellow-500 text-yellow-900 border-2 border-yellow-600 text-sm px-5 py-2 font-bold shadow-lg"
+                      >
+                        ⭐ {badge}
+                      </motion.span>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button onClick={handleRestart} className="btn-primary">
-                Try Again
-              </button>
-              <Link href="/" className="btn-secondary inline-flex items-center justify-center gap-2">
-                <Home className="w-4 h-4" />
-                Back to Home
-              </Link>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8 }}
+                className="flex flex-col sm:flex-row gap-4 justify-center"
+              >
+                <button
+                  onClick={handleRestart}
+                  className="bg-gradient-to-r from-primary-600 to-accent-600 text-white font-black text-lg px-8 py-4 rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all"
+                >
+                  Play Again
+                </button>
+                <Link
+                  href="/"
+                  className="bg-white text-primary-700 font-bold text-lg px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all border-2 border-primary-200 inline-flex items-center justify-center gap-2"
+                >
+                  <Home className="w-5 h-5" />
+                  Back to Home
+                </Link>
+              </motion.div>
             </div>
           </motion.div>
         </div>
@@ -140,37 +210,94 @@ export default function QuizPage() {
 
   if (questions.length === 0) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 to-accent-50">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
-          <p className="text-slate-600">Loading questions...</p>
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+            className="w-16 h-16 border-4 border-primary-600 border-t-transparent rounded-full mx-auto mb-4"
+          ></motion.div>
+          <p className="text-slate-600 font-semibold">Loading challenges...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen py-8 px-4">
+    <div className="min-h-screen py-6 px-4 bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
       <div className="max-w-5xl mx-auto">
-        <div className="mb-6 flex items-center justify-between">
-          <Link href="/" className="inline-flex items-center gap-2 text-primary-600 hover:text-primary-700">
-            <ArrowLeft className="w-4 h-4" />
-            Back to Home
-          </Link>
-          <div className="text-sm text-slate-600">
-            Question {currentQuestionIndex + 1} of {questions.length}
+        {/* Header with Progress */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 text-primary-600 hover:text-primary-700 font-semibold transition-colors"
+            >
+              <ArrowLeft className="w-5 h-5" />
+              Home
+            </Link>
+            <div className="flex items-center gap-3 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg border border-primary-200">
+              <Zap className="w-5 h-5 text-yellow-500" />
+              <span className="font-bold text-slate-800">
+                Question <span className="text-primary-600">{currentQuestionIndex + 1}</span> / {questions.length}
+              </span>
+            </div>
+          </div>
+
+          {/* Progress Bar */}
+          <div className="bg-white/80 backdrop-blur-sm rounded-full h-4 shadow-lg border border-primary-200 overflow-hidden">
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: `${progressPercent}%` }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="h-full bg-gradient-to-r from-primary-500 via-accent-500 to-primary-500 rounded-full relative overflow-hidden"
+            >
+              <motion.div
+                animate={{ x: ['-100%', '100%'] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+              ></motion.div>
+            </motion.div>
           </div>
         </div>
+
+        {/* Celebration Overlay */}
+        <AnimatePresence>
+          {showCelebration && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 1.5 }}
+              className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none"
+            >
+              <div className="text-center">
+                <motion.div
+                  animate={{ rotate: [0, 360], scale: [1, 1.2, 1] }}
+                  transition={{ duration: 0.6 }}
+                >
+                  <div className="text-8xl mb-4">🎉</div>
+                </motion.div>
+                <motion.div
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  className="text-4xl font-black text-primary-600"
+                >
+                  Correct! +{currentQuestion?.points || 0} pts
+                </motion.div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         <ProgressTracker progress={progress} />
 
         <AnimatePresence mode="wait">
           <motion.div
             key={currentQuestionIndex}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.3 }}
+            initial={{ opacity: 0, x: 50, scale: 0.95 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            exit={{ opacity: 0, x: -50, scale: 0.95 }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
           >
             {currentQuestion?.type === 'msq' && (
               <MSQQuestion
@@ -193,23 +320,28 @@ export default function QuizPage() {
           </motion.div>
         </AnimatePresence>
 
-        <div className="mt-8 flex justify-between items-center">
+        {/* Navigation */}
+        <div className="mt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
           <button
             onClick={() => setCurrentQuestionIndex(Math.max(0, currentQuestionIndex - 1))}
             disabled={currentQuestionIndex === 0}
-            className="btn-secondary disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none inline-flex items-center gap-2"
+            className="bg-white text-primary-700 font-bold px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none border-2 border-primary-200 inline-flex items-center gap-2"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="w-5 h-5" />
             Previous
           </button>
 
-          <div className="flex gap-2">
+          {/* Question Dots */}
+          <div className="flex gap-2 flex-wrap justify-center max-w-md">
             {questions.map((_, index) => (
-              <div
+              <motion.div
                 key={index}
-                className={`w-2 h-2 rounded-full ${
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: index * 0.02 }}
+                className={`w-3 h-3 rounded-full transition-all ${
                   index === currentQuestionIndex
-                    ? 'bg-primary-600'
+                    ? 'bg-primary-600 scale-125 shadow-lg'
                     : index < currentQuestionIndex
                     ? 'bg-green-500'
                     : 'bg-slate-300'
@@ -221,14 +353,13 @@ export default function QuizPage() {
           <button
             onClick={handleNext}
             disabled={currentQuestionIndex >= questions.length - 1}
-            className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none inline-flex items-center gap-2"
+            className="bg-gradient-to-r from-primary-600 to-accent-600 text-white font-bold px-8 py-3 rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none inline-flex items-center gap-2"
           >
-            Next
-            <ArrowRight className="w-4 h-4" />
+            {currentQuestionIndex >= questions.length - 1 ? 'Finish' : 'Next'}
+            <ArrowRight className="w-5 h-5" />
           </button>
         </div>
       </div>
     </div>
   )
 }
-

@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'RadaQuest - Gamified Cybersecurity Awareness',
-  description: 'Learn cybersecurity through interactive quizzes and challenges. Protect yourself from phishing, scams, and cyber threats in Kenya.',
-  keywords: 'cybersecurity, Kenya, gamified learning, phishing, online safety',
+  title: 'Lookout Quest - Cybersecurity & Data Protection Learning',
+  description: 'Master cybersecurity and data protection through interactive quizzes. Learn to safeguard your personal data and protect against cyber threats in Kenya.',
+  keywords: 'cybersecurity, data protection, Kenya, gamified learning, phishing, online safety, data privacy, Kenya Data Protection Act',
 }
 
 export default function RootLayout({

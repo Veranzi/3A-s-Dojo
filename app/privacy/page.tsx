@@ -39,12 +39,12 @@ export default function PrivacyPage() {
                 Overview
               </h2>
               <p className="text-slate-700 leading-relaxed mb-4">
-                RadaQuest is committed to protecting your privacy and ensuring compliance with the 
+                Lookout Quest is committed to protecting your privacy and ensuring compliance with the 
                 <strong> Kenya Data Protection Act (2019)</strong>. This policy explains how we handle 
                 data when you use our platform.
               </p>
               <p className="text-slate-700 leading-relaxed">
-                <strong>Important:</strong> RadaQuest does not require registration, login, or collection 
+                <strong>Important:</strong> Lookout Quest does not require registration, login, or collection 
                 of personal information. You can use our platform completely anonymously.
               </p>
             </div>
@@ -95,7 +95,7 @@ export default function PrivacyPage() {
                 Compliance with Kenya Data Protection Act (2019)
               </h2>
               <p className="text-slate-700 leading-relaxed mb-4">
-                RadaQuest is designed to comply with the Kenya Data Protection Act (2019) principles:
+                Lookout Quest is designed to comply with the Kenya Data Protection Act (2019) principles:
               </p>
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="bg-green-50 border border-green-200 rounded-lg p-4">
@@ -175,7 +175,7 @@ export default function PrivacyPage() {
             <div>
               <h2 className="text-2xl font-bold mb-4">Children's Privacy</h2>
               <p className="text-slate-700 leading-relaxed">
-                RadaQuest is designed to be safe for users of all ages. Since we do not collect personal 
+                Lookout Quest is designed to be safe for users of all ages. Since we do not collect personal 
                 information and all data is stored locally, the platform is safe for children to use 
                 without parental consent.
               </p>

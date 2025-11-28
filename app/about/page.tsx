@@ -20,10 +20,10 @@ export default function AboutPage() {
         >
           <div className="text-center mb-12">
             <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
-              About RadaQuest
+              About Lookout Quest
             </h1>
             <p className="text-xl text-slate-600">
-              Empowering Kenya with cybersecurity knowledge
+              Empowering Kenya with cybersecurity and data protection knowledge
             </p>
           </div>
 
@@ -34,10 +34,11 @@ export default function AboutPage() {
                 Our Mission
               </h2>
               <p className="text-slate-700 leading-relaxed">
-                RadaQuest is a web-based, gamified cybersecurity platform designed to teach 
-                users safe online practices in Kenya through interactive quizzes and challenges. We 
-                believe that cybersecurity awareness should be accessible, engaging, and practical for 
-                everyone.
+                Lookout Quest is a web-based, gamified platform designed to teach users cybersecurity and 
+                data protection best practices in Kenya through interactive quizzes and challenges. We 
+                believe that cybersecurity awareness and data protection knowledge should be accessible, 
+                engaging, and practical for everyone, helping citizens understand their rights under the 
+                Kenya Data Protection Act (2019).
               </p>
             </div>
 
@@ -48,10 +49,12 @@ export default function AboutPage() {
               </h2>
               <p className="text-slate-700 leading-relaxed">
                 Kenya is experiencing rapid digital adoption, yet human vulnerability remains the 
-                leading cause of cybersecurity breaches. Phishing, social engineering, weak passwords, 
-                malicious links, and impersonation attacks continue to affect individuals, SMEs, and 
-                institutions. Traditional awareness campaigns are often boring, technical, or inaccessible, 
-                leaving many citizens unprepared to identify and respond to cyber threats.
+                leading cause of cybersecurity breaches and data protection violations. Phishing, social 
+                engineering, weak passwords, malicious links, impersonation attacks, and unauthorized data 
+                sharing continue to affect individuals, SMEs, and institutions. Many Kenyans are unaware 
+                of their data protection rights under the Data Protection Act (2019). Traditional awareness 
+                campaigns are often boring, technical, or inaccessible, leaving many citizens unprepared to 
+                identify cyber threats and protect their personal data.
               </p>
             </div>
 
@@ -61,11 +64,11 @@ export default function AboutPage() {
                 Our Solution
               </h2>
               <p className="text-slate-700 leading-relaxed mb-4">
-                RadaQuest offers three primary interaction formats:
+                Lookout Quest offers three primary interaction formats:
               </p>
               <ul className="list-disc list-inside space-y-2 text-slate-700 ml-4">
                 <li><strong>Multiple-Selection Questions (MSQ):</strong> Answer scenario-based questions where multiple choices may be correct</li>
-                <li><strong>Drag-and-Drop Matching:</strong> Match cybersecurity threats with their categories</li>
+                <li><strong>Drag-and-Drop Matching:</strong> Match cybersecurity threats and data protection principles with their categories</li>
                 <li><strong>Click-to-Select Questions:</strong> Choose the correct answer from multiple options</li>
               </ul>
             </div>
@@ -86,7 +89,7 @@ export default function AboutPage() {
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-primary-600 font-bold">✓</span>
-                  <span><strong>Real Kenyan Examples:</strong> Local scams, fake job posts, M-Pesa fraud, WhatsApp promotions</span>
+                  <span><strong>Real Kenyan Examples:</strong> Local scams, data protection scenarios, M-Pesa fraud, WhatsApp promotions, Kenya Data Protection Act compliance</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-primary-600 font-bold">✓</span>
