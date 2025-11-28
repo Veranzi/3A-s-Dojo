@@ -13,11 +13,80 @@ import {
   ArrowRight,
   Star,
   Target,
-  Users,
   Play,
   Sparkles,
   TrendingUp
 } from 'lucide-react'
+
+const quickStats = [
+  { value: '19+', label: 'Challenges' },
+  { value: '4', label: 'Quiz Types' },
+  { value: '100%', label: 'Free' },
+]
+
+const quizTypes = [
+  {
+    name: 'Multiple Choice',
+    description: 'Select all correct answers from multiple options. Test your comprehensive knowledge!',
+    icon: Brain,
+    color: 'bg-gradient-to-br from-blue-500 to-blue-600',
+    points: '10-20',
+  },
+  {
+    name: 'Drag & Drop',
+    description: 'Match items to categories by dragging. Perfect for visual learners!',
+    icon: Target,
+    color: 'bg-gradient-to-br from-purple-500 to-purple-600',
+    points: '15-20',
+  },
+  {
+    name: 'Click to Select',
+    description: 'Choose the single best answer. Quick and engaging!',
+    icon: Zap,
+    color: 'bg-gradient-to-br from-green-500 to-green-600',
+    points: '10-20',
+  },
+  {
+    name: 'Word Puzzle',
+    description: 'Discover cybersecurity terms in a Sudoku-style grid. Solve and learn!',
+    icon: Star,
+    color: 'bg-gradient-to-br from-orange-500 to-red-600',
+    points: '25-30',
+  },
+]
+
+const features = [
+  {
+    icon: Trophy,
+    title: 'Earn Badges & Rewards',
+    description: 'Unlock achievements as you progress. Show off your cyber skills!',
+  },
+  {
+    icon: TrendingUp,
+    title: 'Level Up System',
+    description: 'Progress from Beginner to Expert. Track your growth in real-time.',
+  },
+  {
+    icon: Shield,
+    title: 'Real-World Scenarios',
+    description: 'Learn from actual Kenyan cybersecurity and data protection cases.',
+  },
+  {
+    icon: Star,
+    title: 'Streak Tracking',
+    description: 'Build your streak by answering correctly. How long can you go?',
+  },
+  {
+    icon: Lock,
+    title: 'Privacy First',
+    description: 'No sign-up needed. Your progress stays on your device.',
+  },
+  {
+    icon: Award,
+    title: 'Instant Feedback',
+    description: 'Get explanations immediately. Learn from every answer.',
+  },
+]
 
 export default function Home() {
   const [mounted, setMounted] = useState(false)
@@ -101,7 +170,7 @@ export default function Home() {
                 className="group relative overflow-hidden bg-gradient-to-r from-primary-600 via-accent-600 to-primary-600 text-white font-bold text-xl px-10 py-5 rounded-2xl shadow-2xl hover:shadow-primary-500/50 transform hover:scale-105 transition-all duration-300 flex items-center gap-3"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-primary-400 to-accent-400 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                <Play className="w-6 h-6 relative z-10" fill="currentColor" />
+                <Play className="w-6 h-6 relative z-10" />
                 <span className="relative z-10">Start Playing Now</span>
                 <ArrowRight className="w-6 h-6 relative z-10 group-hover:translate-x-1 transition-transform" />
               </Link>
@@ -150,11 +219,11 @@ export default function Home() {
               Choose Your Challenge Type
             </h2>
             <p className="text-xl text-slate-600">
-              Three exciting ways to learn and earn points
+              Four exciting ways to learn and earn points
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {quizTypes.map((type, index) => (
               <motion.div
                 key={type.name}
@@ -222,7 +291,9 @@ export default function Home() {
 
       {/* CTA Section */}
       <section className="py-24 px-4 bg-gradient-to-r from-primary-600 via-accent-600 to-primary-600 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.1"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
+        <div className="absolute inset-0 opacity-20" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+        }}></div>
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -247,7 +318,7 @@ export default function Home() {
               href="/quiz" 
               className="inline-flex items-center gap-3 bg-white text-primary-600 font-black text-xl px-12 py-6 rounded-2xl shadow-2xl hover:shadow-white/50 transform hover:scale-110 transition-all duration-300"
             >
-              <Play className="w-6 h-6" fill="currentColor" />
+              <Play className="w-6 h-6" />
               Start Your Quest
               <ArrowRight className="w-6 h-6" />
             </Link>
@@ -282,66 +353,3 @@ export default function Home() {
     </div>
   )
 }
-
-const quickStats = [
-  { value: '17+', label: 'Challenges' },
-  { value: '3', label: 'Quiz Types' },
-  { value: '100%', label: 'Free' },
-]
-
-const quizTypes = [
-  {
-    name: 'Multiple Choice',
-    description: 'Select all correct answers from multiple options. Test your comprehensive knowledge!',
-    icon: Brain,
-    color: 'bg-gradient-to-br from-blue-500 to-blue-600',
-    points: '10-20',
-  },
-  {
-    name: 'Drag & Drop',
-    description: 'Match items to categories by dragging. Perfect for visual learners!',
-    icon: Target,
-    color: 'bg-gradient-to-br from-purple-500 to-purple-600',
-    points: '15-20',
-  },
-  {
-    name: 'Click to Select',
-    description: 'Choose the single best answer. Quick and engaging!',
-    icon: Zap,
-    color: 'bg-gradient-to-br from-green-500 to-green-600',
-    points: '10-20',
-  },
-]
-
-const features = [
-  {
-    icon: Trophy,
-    title: 'Earn Badges & Rewards',
-    description: 'Unlock achievements as you progress. Show off your cyber skills!',
-  },
-  {
-    icon: TrendingUp,
-    title: 'Level Up System',
-    description: 'Progress from Beginner to Expert. Track your growth in real-time.',
-  },
-  {
-    icon: Shield,
-    title: 'Real-World Scenarios',
-    description: 'Learn from actual Kenyan cybersecurity and data protection cases.',
-  },
-  {
-    icon: Star,
-    title: 'Streak Tracking',
-    description: 'Build your streak by answering correctly. How long can you go?',
-  },
-  {
-    icon: Lock,
-    title: 'Privacy First',
-    description: 'No sign-up needed. Your progress stays on your device.',
-  },
-  {
-    icon: Award,
-    title: 'Instant Feedback',
-    description: 'Get explanations immediately. Learn from every answer.',
-  },
-]

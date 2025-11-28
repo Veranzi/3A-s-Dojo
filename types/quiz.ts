@@ -1,4 +1,4 @@
-export type QuizType = 'msq' | 'drag-drop' | 'click-select'
+export type QuizType = 'msq' | 'drag-drop' | 'click-select' | 'sudoku'
 
 export type Difficulty = 'beginner' | 'intermediate' | 'expert'
 
@@ -43,7 +43,19 @@ export interface ClickSelectQuestion extends BaseQuestion {
   }[]
 }
 
-export type Question = MSQQuestion | DragDropQuestion | ClickSelectQuestion
+export interface SudokuQuestion extends BaseQuestion {
+  type: 'sudoku'
+  grid: (string | null)[][]
+  solution: string[][]
+  terms: {
+    word: string
+    clue: string
+    position: { row: number; col: number; direction: 'across' | 'down' }
+  }[]
+  hints: string[]
+}
+
+export type Question = MSQQuestion | DragDropQuestion | ClickSelectQuestion | SudokuQuestion
 
 export interface UserProgress {
   totalPoints: number

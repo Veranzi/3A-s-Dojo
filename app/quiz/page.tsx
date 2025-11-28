@@ -9,6 +9,7 @@ import { Question, UserProgress } from '@/types/quiz'
 import MSQQuestion from '@/components/quiz/MSQQuestion'
 import DragDropQuestion from '@/components/quiz/DragDropQuestion'
 import ClickSelectQuestion from '@/components/quiz/ClickSelectQuestion'
+import SudokuQuestion from '@/components/quiz/SudokuQuestion'
 import ProgressTracker from '@/components/ProgressTracker'
 import { updateProgress, getInitialProgress } from '@/utils/gamification'
 
@@ -313,6 +314,12 @@ export default function QuizPage() {
             )}
             {currentQuestion?.type === 'click-select' && (
               <ClickSelectQuestion
+                question={currentQuestion}
+                onAnswer={handleAnswer}
+              />
+            )}
+            {currentQuestion?.type === 'sudoku' && (
+              <SudokuQuestion
                 question={currentQuestion}
                 onAnswer={handleAnswer}
               />
